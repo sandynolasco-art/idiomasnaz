@@ -272,11 +272,25 @@ var WHATSAPP = '59178013639';
 var SOCIALS = { facebook:'', instagram:'', tiktok:'', youtube:'' }; // pega los links completos; los vacíos no se muestran
 var MAP_SRC = 'https://www.google.com/maps?q=Edificio+Altamira,+Av.+Arce+y+Cordero,+La+Paz,+Bolivia&z=17&output=embed';
 
-function wa(m){return 'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(m);}
-document.getElementById('wa-main').href=wa('Hola NAZ, quiero inscribirme a un curso de alemán.');
-document.getElementById('wa-super').href=wa('Hola NAZ, quiero el Súper Acelerado A1 del 18 de noviembre.');
-document.getElementById('wa-map').href=wa('Hola NAZ, quiero agendar una visita a la oficina de la Av. Arce.');
-document.getElementById('wa-about').href=wa('Hola NAZ, quiero información sobre los cursos de alemán.');
+/* UTM: si el Linktree se abre con ?utm_source=instagram&utm_medium=bio (recomendado para la bio),
+   esos datos viajan al WhatsApp y a cada link hacia la web */
+var UTM=(function(){var keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'],o={};
+  try{var q=new URLSearchParams(location.search);keys.forEach(function(k){var v=q.get(k);if(v)o[k]=v.slice(0,60);});
+    if(Object.keys(o).length)sessionStorage.setItem('naz_utm',JSON.stringify(o));else{var st=sessionStorage.getItem('naz_utm');if(st)o=JSON.parse(st)||{};}}catch(e){}
+  return o;})();
+function originTag(btn){var parts=[];if(UTM.utm_source)parts.push(UTM.utm_source);if(UTM.utm_medium)parts.push(UTM.utm_medium);if(UTM.utm_campaign)parts.push(UTM.utm_campaign);
+  return 'Vengo del Linktree de la web'+(parts.length?' ('+parts.join(' / ')+')':'')+(btn?' · '+btn:'')+'.';}
+function wa(m,btn){return 'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(m+'\n\n'+originTag(btn));}
+function withUtm(href,content){try{var u=new URL(href,location.href);
+  u.searchParams.set('utm_source',UTM.utm_source||'linktree');u.searchParams.set('utm_medium',UTM.utm_medium||'referral');
+  if(UTM.utm_campaign)u.searchParams.set('utm_campaign',UTM.utm_campaign);u.searchParams.set('utm_content','linktree_'+content);
+  return u.pathname.split('/').pop()+u.search+u.hash;}catch(e){return href;}}
+document.querySelectorAll('a.lk[href^="index.html"]').forEach(function(a){var c=(a.querySelector('strong')||{}).textContent||'link';
+  a.href=withUtm(a.getAttribute('href'),c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''));});
+document.getElementById('wa-main').href=wa('Hola NAZ, quiero inscribirme a un curso de alemán.','botón inscríbete');
+document.getElementById('wa-super').href=wa('Hola NAZ, quiero el Súper Acelerado A1 del 18 de noviembre.','A1 en 6 semanas');
+document.getElementById('wa-map').href=wa('Hola NAZ, quiero agendar una visita a la oficina de la Av. Arce.','dirección');
+document.getElementById('wa-about').href=wa('Hola NAZ, quiero información sobre los cursos de alemán.','acerca de');
 document.getElementById('yr').textContent=new Date().getFullYear();
 
 /* redes */
