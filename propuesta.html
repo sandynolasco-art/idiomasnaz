@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Propuesta web NAZ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+/* Layout: carta de propuesta en una columna, con bloques de precio lado a lado y pasos numerados */
+:root{
+  --paper:#FBF9F3;--card:#FFFFFF;--ink:#16202E;--text:#3B4452;--muted:#6B7280;--line:#E8E3D4;
+  --sun:#F8CF1F;--sun-soft:#FEF3C4;--navy:#1C2636;--ok:#2F8F4E;
+  --font:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"Fragment Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#10151D;--card:#171E28;--ink:#F3EFE4;--text:#C8CDD5;--muted:#99A0AB;--line:#28313D;--sun-soft:#2C2810;--navy:#0B0F15;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#10151D;--card:#171E28;--ink:#F3EFE4;--text:#C8CDD5;--muted:#99A0AB;--line:#28313D;--sun-soft:#2C2810;--navy:#0B0F15;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:8px}
+.wrap{max-width:820px;margin:0 auto;padding-block:48px 40px;display:flex;flex-direction:column;gap:56px}
+.k{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(34px,6vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1.02;text-wrap:balance}
+h1 mark{background:var(--sun);color:#1C2636;padding:0 .12em;border-radius:.18em}
+h2{font-size:clamp(24px,3.4vw,32px);font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-bottom:18px;text-wrap:balance}
+p{color:var(--text);max-width:62ch}
+.head{display:flex;flex-direction:column;gap:18px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.lead{font-size:18px}
+.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 22px;border-radius:999px;font-weight:800;font-size:15px;text-decoration:none;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-dark{background:var(--navy);color:#fff}
+.btn-sun{background:var(--sun);color:#1C2636}
+.btn-ghost{border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.btn svg{width:16px;height:16px}
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pain{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.pain q{display:block;font-weight:800;font-size:17px;color:var(--ink);quotes:"“" "”";margin-bottom:6px}
+.pain span{font-size:14px;color:var(--muted)}
+.feat{list-style:none;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.feat li{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.feat li::before{content:"";width:22px;height:22px;border-radius:50%;margin-top:2px;background:var(--sun) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231C2636' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
+.feat b{display:block;color:var(--ink)}
+.feat span{font-size:15px;color:var(--text)}
+.price{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.pc.main{background:var(--navy);border-color:var(--navy);color:#fff}
+.pc.main p,.pc.main li{color:rgba(255,255,255,.82)}
+.pc.main .k{color:var(--sun)}
+.amt{font-size:44px;font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.amt small{font-size:16px;font-weight:700;letter-spacing:0;margin-left:4px;opacity:.8}
+.pc ul{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:14.5px}
+.pc li{position:relative;padding-left:16px;color:var(--text)}
+.pc li::before{content:"";position:absolute;left:2px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--sun)}
+.pc .no{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.pc.main .no{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
+.rec{align-self:flex-start;background:var(--sun);color:#1C2636;font-weight:800;font-size:12px;padding:4px 10px;border-radius:999px}
+.pc-month{margin-top:14px;display:grid;grid-template-columns:auto 1fr;gap:10px 32px;align-items:start}
+.pc-month .no{grid-column:1/-1}
+@media(max-width:780px){.tiers{grid-template-columns:1fr}.pc-month{grid-template-columns:1fr}}
+.cap{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.cap .k{display:block;margin-bottom:6px}
+@media(max-width:700px){.cap{grid-template-columns:1fr;gap:20px}}
+.note{background:var(--sun-soft);border-radius:16px;padding:16px 18px;font-size:15px;color:var(--ink)}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;counter-reset:s}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;font-size:15px;color:var(--text)}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--sun);color:#1C2636;font-weight:900;margin-bottom:10px}
+.steps b{display:block;color:var(--ink);font-size:16px}
+.cta{background:var(--navy);color:#fff;border-radius:26px;padding:32px;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.cta p{color:rgba(255,255,255,.8)}
+.cta h2{margin:0}
+.sign{font-size:14px;color:rgba(255,255,255,.75)}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+footer a{color:var(--ink);font-weight:700}
+@media(max-width:700px){.pains,.price,.steps{grid-template-columns:1fr}.wrap{gap:44px;padding-top:32px}.cta{padding:24px}.links .btn{width:100%;justify-content:center}}
+</style>
+
+</head>
+<body>
+<main class="wrap">
+  <header class="head">
+    <span class="k">The 25th Studio · Propuesta</span>
+    <h1>Página web y auditoría de redes para <mark>NAZ Centro de Idiomas</mark></h1>
+    <div class="meta"><span>Para: <b>NAZ Centro de Idiomas</b></span><span>De: <b>Sandra Hernández</b></span><span>Fecha: <b>12 de noviembre de 2026</b></span></div>
+    <p class="lead">Les preparé un prototipo de página web y una página de links para su bio, y una auditoría de sus redes sociales para saber qué está funcionando y qué mejorar. Pueden verlo con calma, sin ningún compromiso.</p>
+    <div class="links">
+      <a class="btn btn-sun" href="https://idiomasnaz2.vercel.app/" target="_blank" rel="noopener">Ver la página web <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a class="btn btn-ghost" href="https://idiomasnaz2.vercel.app/linktree.html" target="_blank" rel="noopener">Ver la página de links</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>Lo que más les preguntan, respondido en un solo lugar</h2>
+    <div class="pains">
+      <div class="pain"><q>¿Precio?</q><span>Precios, matrícula y fecha de preinscripción de cada curso, por nivel y modalidad.</span></div>
+      <div class="pain"><q>¿Me sirve para la visa?</q><span>Una sección que explica el certificado NAZ y los exámenes Goethe, telc y TestDaF.</span></div>
+      <div class="pain"><q>¿Hay en Santa Cruz?</q><span>Clases virtuales explicadas para quienes están fuera de La Paz.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Qué incluye</h2>
+    <ul class="feat">
+      <li><div><b>Cursos y precios por nivel</b><span>Pestañas A1, A2, B1 y B2, con filtro Virtual o Presencial, horarios, precios con descuento y el póster de cada promoción.</span></div></li>
+      <li><div><b>Reservas por WhatsApp con toda la información</b><span>Al tocar "Quiero mi cupo", les llega un mensaje con el curso, ritmo, modalidad, horario y precio que eligió la persona.</span></div></li>
+      <li><div><b>Saber de dónde llega cada consulta</b><span>El mensaje indica si la persona vino de Instagram, de un anuncio o de la web, usando links con seguimiento (UTM).</span></div></li>
+      <li><div><b>Sección de promociones</b><span>Los flyers del mes en una cinta que se abre en grande al tocarlos, con su botón de consulta por WhatsApp.</span></div></li>
+      <li><div><b>Página de links para Instagram y TikTok</b><span>Inscripción por WhatsApp, cursos, promociones, dirección con mapa y redes, todo en un link.</span></div></li>
+      <li><div><b>Preparada para Google</b><span>Optimizada para búsquedas como "cursos de alemán La Paz" y "clases de alemán virtuales". Aparecer arriba toma tiempo y no depende solo de la página.</span></div></li>
+      <li><div><b>Se ve bien en celular</b><span>Pensada para quien llega desde WhatsApp o Instagram.</span></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Auditoría de redes sociales</h2>
+    <p style="margin-bottom:16px">Reviso sus cuentas de Instagram, Facebook y TikTok y les entrego un informe claro, con lo que conviene mantener, cambiar y empezar a hacer. Incluida en el Paquete 2.</p>
+    <div class="cap">
+      <div class="cap-col">
+        <span class="k">Qué reviso</span>
+        <ul class="feat">
+          <li><div><b>Perfil y bio</b><span>Foto, descripción, link de la bio y destacadas: si alguien nuevo entiende en 5 segundos qué ofrecen y cómo inscribirse.</span></div></li>
+          <li><div><b>Contenido</b><span>Qué publicaciones y formatos (reels, carruseles, historias) traen más alcance y consultas.</span></div></li>
+          <li><div><b>Métricas</b><span>Alcance, interacción, seguidores y frecuencia de los últimos 3 meses.</span></div></li>
+          <li><div><b>Anuncios</b><span>Si hacen publicidad en Meta: a quién le llega, cuánto cuesta cada consulta y qué se puede mejorar.</span></div></li>
+          <li><div><b>Competencia</b><span>Cómo se comunican otros institutos de idiomas en Bolivia.</span></div></li>
+        </ul>
+      </div>
+      <div class="cap-col">
+        <span class="k">Qué reciben</span>
+        <ul class="feat">
+          <li><div><b>Informe en PDF</b><span>Con capturas, puntuación por red y hallazgos explicados sin tecnicismos.</span></div></li>
+          <li><div><b>10 mejoras priorizadas</b><span>Ordenadas de la más rápida y de mayor impacto a la más compleja.</span></div></li>
+          <li><div><b>Ideas de contenido</b><span>Temas y formatos sugeridos para un mes de publicaciones.</span></div></li>
+          <li><div><b>Reunión de 45 minutos por Zoom</b><span>Para explicarles el informe y resolver sus dudas.</span></div></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px">Para revisar las métricas necesito acceso de lectura a sus cuentas (Meta Business Suite) o capturas de las estadísticas.</p>
+  </section>
+
+  <section>
+    <h2>Elijan su paquete</h2>
+    <div class="price">
+      <div class="pc">
+        <span class="k">Paquete 1 · Web</span>
+        <div class="amt">Bs 2.000</div>
+        <p>Página web y página de links, publicadas.</p>
+        <ul>
+          <li>Ajustes con su material: fotos, textos, precios y horarios</li>
+          <li>Carga de las promociones vigentes</li>
+          <li>Alta en Google Search Console</li>
+          <li>Links con seguimiento para su bio y anuncios</li>
+        </ul>
+      </div>
+      <div class="pc main">
+        <span class="k">Paquete 2 · Web + auditoría de redes</span>
+        <span class="rec">Recomendado</span>
+        <div class="amt">Bs 2.500</div>
+        <p>Todo el Paquete 1, más la auditoría completa de sus redes sociales.</p>
+        <ul>
+          <li>Informe en PDF con 10 mejoras priorizadas</li>
+          <li>Ideas de contenido para un mes</li>
+          <li>Reunión de 45 minutos para explicarlo</li>
+        </ul>
+        <p class="no">Por separado serían Bs 2.800 (auditoría sola: Bs 800).</p>
+      </div>
+    </div>
+    <div class="pc pc-month">
+      <div><span class="k">Para cualquier paquete · Mantenimiento mensual</span>
+      <div class="amt">Bs 300<small>/mes</small></div></div>
+      <ul>
+        <li>Cambios de texto: cursos, precios, horarios y fechas</li>
+        <li>Cambio de banners y flyers de promociones</li>
+        <li>Revisar que la página y los botones de WhatsApp funcionen</li>
+      </ul>
+      <p class="no">Ustedes envían el material listo. No incluye diseño de flyers ni secciones nuevas. Se puede cancelar cuando quieran.</p>
+    </div>
+    <p class="note" style="margin-top:14px"><b>Forma de pago:</b> 50% para empezar y 50% al publicar (por ejemplo, Paquete 2: Bs 1.250 y Bs 1.250). El mantenimiento se paga mes a mes. Los precios no incluyen IVA.</p>
+    <p class="note" style="margin-top:14px"><b>Dominio:</b> un dominio propio (por ejemplo nazidiomas.com) cuesta aprox. USD 15 al año y queda a nombre de NAZ. El alojamiento de la página no tiene costo.</p>
+  </section>
+
+  <section>
+    <h2>Cómo seguimos</h2>
+    <ol class="steps">
+      <li><b>Lo revisan</b>Me dicen qué les gusta y qué cambiarían.</li>
+      <li><b>Ajustamos y auditamos</b>Con el anticipo, completo la página con su material y reviso sus redes.</li>
+      <li><b>Publicamos</b>La aprueban, se publica en su dominio y queda lista para compartir.</li>
+    </ol>
+  </section>
+
+  <section class="cta">
+    <h2>¿Lo conversamos?</h2>
+    <p>El prototipo es privado y solo lo tiene quien recibe este link. Usé su nombre y los flyers de sus promociones solo para mostrar cómo quedaría. Si no les interesa, no hay ningún problema, me avisan y lo retiro.</p>
+    <a class="btn btn-sun" href="https://wa.me/59177643717?text=Hola%20Sandra%2C%20vimos%20la%20propuesta%20de%20p%C3%A1gina%20web%20y%20auditor%C3%ADa%20para%20NAZ." target="_blank" rel="noopener">Escribirle a Sandra por WhatsApp</a>
+    <span class="sign">Sandra Hernández · The 25th Studio · +591 77643717</span>
+  </section>
+
+  <footer>
+    <span>Propuesta válida por 15 días.</span>
+    <span>Diseñado por <a href="https://www.instagram.com/the25thstudio_" target="_blank" rel="noopener">The 25th Studio</a></span>
+  </footer>
+</main>
+</body>
+</html>
